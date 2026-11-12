@@ -209,7 +209,7 @@ footer p + p{margin-top:6px}
         <div class="label">New in the expansion</div>
         <h2 class="disp f-sha" id="shadowTitle">Shadow</h2>
         <div class="label sub">Not a faction. Above all of them.</div>
-        <p>The deep state. The lodge. The people who own the people who run every faction. SHADOW cards don't take a side. They tilt the table for everyone sitting at it. How they enter play is still classified.</p>
+        <p>The deep state. The people who own the people who run every faction. SHADOW cards don't take a side. They tilt the table for everyone sitting at it. How they enter play is still classified.</p>
       </div>
       <button class="btn" id="shadowBtn" type="button">Open the SHADOW files</button>
     </section>
@@ -481,7 +481,7 @@ function renderDetail(card){
 
   const effect = card.fx
     ? `<div class="label">${fxLabel}</div><p>${esc(card.fx)}</p>`
-    : `<div class="label">${fxLabel}</div><div class="bars" aria-hidden="true"><span></span><span></span></div><div class="cstamp">CLASSIFIED</div><p class="cnote">Mechanics in development. Ask the team at the table what this one does.</p>`;
+    : `<div class="label">${fxLabel}</div><div class="bars" aria-hidden="true"><span></span><span></span></div><div class="cstamp">CLASSIFIED</div><p class="cnote">Mechanics in development. Check back soon.</p>`;
 
   const emblemAlt = card.faction === 'sha' ? 'SHADOW mark' : esc(f.name)+' faction emblem';
   $('file').classList.toggle('has-art', !!card.art);
