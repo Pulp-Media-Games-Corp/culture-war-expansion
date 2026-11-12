@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CULTURE WAR Expansion Files</title>
+<meta name="description" content="Card concepts in development for the first CULTURE WAR expansion.">
+<link rel="icon" href="{{GLOBE_ICON}}">
+<style>
+@font-face{font-family:"CW Display Fallback";src:url({{FONT_DISPLAY}}) format("woff2-variations"),url({{FONT_DISPLAY}}) format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:swap}
+@font-face{font-family:"CW Body Fallback";src:url({{FONT_BODY}}) format("woff2");font-weight:700;font-display:swap}
+:root{
+  /* Dossier index: ruled list of files on true black, each row opens a full file view with its faction emblem */
+  --black:#000000; --white:#FFFFFF; --ash:#8C8C8C; --slate:#161415; --red:#C8102E; --line:#333333;
+  --ana:#E95953; --com:#A8C85F; --tek:#AFDEEA; --con:#EACEA2; --lib:#8A799B; --sha:#BDBDBD; --hero:#C9A54C;
+  --display:"CW Display Fallback","Helvetica Neue",Arial,sans-serif;
+  --body:"CW Body Fallback","Courier New",monospace;
+  --r-ctl:10px; --r-panel:12px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--black);color:var(--white)}
+body{font-family:var(--body);font-weight:700;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:var(--white);text-underline-offset:3px;text-decoration-thickness:1px}
+.wrap{max-width:1280px;margin:0 auto;padding:0 clamp(16px,4vw,64px)}
+.disp{font-family:var(--display);font-stretch:125%;font-weight:600;text-transform:uppercase;letter-spacing:.01em;line-height:1.02}
+.label{font-family:var(--display);font-stretch:125%;font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:12px;color:var(--ash)}
+.f-ana{color:var(--ana)} .f-com{color:var(--com)} .f-tek{color:var(--tek)} .f-con{color:var(--con)} .f-lib{color:var(--lib)} .f-sha{color:var(--sha)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 18px;background:var(--black);color:var(--white);border:2px solid var(--white);border-radius:var(--r-ctl);font-family:var(--display);font-stretch:125%;font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;cursor:pointer}
+.btn:hover{background:var(--slate)}
+.btn:focus-visible,.chip:focus-visible,.row:focus-visible,select:focus-visible,input:focus-visible,.textlink:focus-visible{outline:2px solid var(--white);outline-offset:3px}
+.btn[disabled]{opacity:.35;cursor:default}
+.btn[disabled]:hover{background:var(--black)}
+.textlink{font-family:var(--display);font-stretch:125%;font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;text-decoration:underline;background:none;border:0;color:var(--white);cursor:pointer;padding:8px 0}
+
+/* top bar */
+.top{border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:72px}
+.top .brand{display:flex;align-items:center;gap:14px;text-decoration:none}
+.top .brand img{height:20px;width:auto}
+.top .brand .label{border-left:1px solid var(--line);padding-left:14px}
+@media (max-width:640px){.top .brand .label{display:none}.top .brand img{height:16px}.top .btn{padding:8px 12px;font-size:11px}}
+
+/* hero */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.hero .wm{position:absolute;right:-12%;top:50%;transform:translateY(-50%);height:135%;width:auto;max-width:none;opacity:.1;pointer-events:none}
+.hero .wrap{position:relative;padding-top:56px;padding-bottom:48px}
+.hero .meta{display:flex;flex-wrap:wrap;gap:8px 28px;margin-bottom:20px}
+.hero h1{font-size:clamp(36px,6.4vw,64px);margin:0 0 20px;text-wrap:balance;max-width:14ch}
+.hero p{max-width:62ch;margin:0;font-size:clamp(16px,1.6vw,18px);text-align:justify;hyphens:auto;text-align-last:left}
+.stamp{position:absolute;right:clamp(16px,6vw,96px);top:40px;transform:rotate(-4deg);color:var(--red);border-top:4px double var(--red);border-bottom:4px double var(--red);padding:6px 12px;font-family:var(--display);font-stretch:125%;font-weight:600;font-size:clamp(18px,2.4vw,28px);letter-spacing:.08em}
+@media (max-width:760px){.stamp{position:static;display:inline-block;margin-bottom:18px;transform:rotate(-3deg)}}
+.tally{display:flex;flex-wrap:wrap;gap:12px 32px;margin-top:28px;padding-top:20px;border-top:1px solid var(--line)}
+.tally div{display:flex;flex-direction:column;gap:2px}
+.tally b{font-family:var(--display);font-stretch:125%;font-weight:600;font-size:28px;font-variant-numeric:tabular-nums;line-height:1}
+
+/* shadow brief */
+.brief{margin:32px auto 0;border:1px solid var(--line);border-radius:var(--r-panel);display:grid;grid-template-columns:auto 1fr auto;gap:28px;align-items:center;padding:24px 28px}
+.brief img{width:160px;height:auto}
+.brief h2{font-size:clamp(28px,3.4vw,40px);margin:4px 0 6px}
+.brief .sub{margin-bottom:10px}
+.brief p{margin:0;max-width:60ch;text-align:justify;hyphens:auto;text-align-last:left}
+@media (max-width:860px){.brief{grid-template-columns:1fr;gap:16px}.brief img{width:120px}}
+
+/* controls */
+.controls{margin-top:32px;border:1px solid var(--line);border-radius:var(--r-panel);padding:20px}
+.searchrow{display:flex;gap:12px;align-items:center}
+.search{flex:1;position:relative}
+.search input{width:100%;min-height:48px;background:var(--black);color:var(--white);border:1px solid var(--line);border-radius:var(--r-ctl);padding:10px 14px;font-family:var(--body);font-weight:700;font-size:16px}
+.search input::placeholder{color:var(--ash)}
+.search input:focus{border-color:var(--white)}
+.filtertoggle{display:none}
+.panel{display:grid;gap:18px;margin-top:18px}
+.group{display:grid;gap:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:40px;padding:8px 14px;background:var(--black);color:var(--ash);border:1px solid var(--line);border-radius:var(--r-ctl);font-family:var(--display);font-stretch:125%;font-weight:600;font-size:12px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:inline-flex;gap:8px;align-items:center}
+.chip:hover{background:var(--slate)}
+.chip[aria-pressed="true"]{border:2px solid var(--white);color:var(--white);padding:7px 13px}
+.chip .n{color:var(--ash);font-variant-numeric:tabular-nums}
+.chip .fname{color:inherit}
+.chip[aria-pressed="true"] .fname.f-ana,.chip .fname.f-ana{color:var(--ana)}
+.chip .fname.f-com{color:var(--com)} .chip .fname.f-tek{color:var(--tek)} .chip .fname.f-con{color:var(--con)} .chip .fname.f-lib{color:var(--lib)} .chip .fname.f-sha{color:var(--sha)}
+.chips .sep{width:1px;background:var(--line);margin:0 4px}
+.selects{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.selects label{display:grid;gap:8px}
+select{appearance:none;-webkit-appearance:none;min-height:44px;width:100%;background:var(--black) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23fff' stroke-width='2' fill='none'/%3E%3C/svg%3E") no-repeat right 14px center;color:var(--white);border:1px solid var(--line);border-radius:var(--r-ctl);padding:8px 38px 8px 14px;font-family:var(--body);font-weight:700;font-size:15px}
+select:focus{border-color:var(--white)}
+.toggles{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between}
+.check{display:inline-flex;gap:10px;align-items:center;cursor:pointer;min-height:44px}
+.check input{width:20px;height:20px;accent-color:#fff}
+@media (max-width:760px){
+  .filtertoggle{display:inline-flex}
+  .controls:not(.open) .panel{display:none}
+  .selects{grid-template-columns:1fr}
+}
+
+/* list */
+.listhead{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:32px 0 10px}
+.listhead .count{font-family:var(--display);font-stretch:125%;font-weight:600;text-transform:uppercase;font-size:14px;letter-spacing:.06em}
+.cols,.row{display:grid;grid-template-columns:40px minmax(200px,1.3fr) 120px 170px minmax(0,2.2fr) 20px;gap:16px;align-items:center}
+.cols{padding:10px 12px;border-bottom:1px solid var(--line)}
+ol.list{list-style:none;margin:0;padding:0}
+.row{padding:14px 12px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--white);min-height:68px}
+.row:hover{background:var(--slate)}
+.sym{width:36px;height:36px;background:center/contain no-repeat;display:block}
+.nm{font-family:var(--display);font-stretch:125%;font-weight:600;text-transform:uppercase;font-size:16px;line-height:1.15;letter-spacing:.01em;overflow-wrap:anywhere}
+.fac{font-family:var(--display);font-stretch:125%;font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:.08em;margin-top:4px}
+.cell{font-size:14px;color:var(--white)}
+.cell.dim,.tbd{color:var(--ash)}
+.hero-tag{color:var(--hero)}
+.fx{font-size:14px;color:var(--white);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.redact{display:inline-block;height:.85em;width:5.5em;background:var(--white);vertical-align:-.08em;margin-right:8px}
+.fx.classified{color:var(--ash)}
+.chev{color:var(--ash);font-family:var(--display);font-size:18px}
+.ver{display:inline-block;margin-left:8px;color:var(--ash);font-size:10px;letter-spacing:.08em;border:1px solid var(--line);border-radius:6px;padding:1px 6px;vertical-align:2px}
+.empty{padding:48px 12px;text-align:left;border-bottom:1px solid var(--line)}
+.empty p{margin:0 0 16px;color:var(--ash)}
+@media (max-width:980px){
+  .cols{display:none}
+  .row{grid-template-columns:40px minmax(0,1fr) 16px;grid-template-areas:"s n c" "s m c" "s f c";gap:4px 14px;align-items:start}
+  .row .sym{grid-area:s;margin-top:2px}
+  .row .who{grid-area:n}
+  .row .typ,.row .sub{display:none}
+  .row .mob{display:block;grid-area:m}
+  .row .fx{grid-area:f}
+  .row .chev{grid-area:c;align-self:center}
+}
+.mob{display:none;font-size:13px;color:var(--ash)}
+
+/* detail */
+.detail{padding-top:24px;padding-bottom:64px}
+.dnav{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;padding-bottom:20px;border-bottom:1px solid var(--line)}
+.dnav .pager{display:flex;gap:10px;align-items:center}
+.dnav .pos{font-variant-numeric:tabular-nums;margin-right:6px}
+.file{display:grid;grid-template-columns:minmax(260px,380px) minmax(0,1fr);gap:clamp(24px,4vw,56px);margin-top:32px;align-items:start}
+.emb{border:1px solid var(--line);border-radius:var(--r-panel);padding:32px 28px;display:grid;justify-items:center;gap:18px;text-align:center}
+.emb img{width:100%;max-width:300px;height:auto}
+.emb.sha img{max-width:320px;margin:24px 0}
+.emb .fn{font-size:clamp(22px,2.6vw,30px)}
+.info h1{font-size:clamp(34px,5.6vw,64px);margin:6px 0 0;text-wrap:balance;overflow-wrap:anywhere}
+.info .ver{font-size:12px;margin:12px 0 0;display:inline-block}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));border-top:1px solid var(--line);border-left:1px solid var(--line);margin-top:28px}
+.facts div{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 16px;display:grid;gap:6px;align-content:start}
+.facts .v{font-family:var(--display);font-stretch:125%;font-weight:600;text-transform:uppercase;font-size:17px;letter-spacing:.02em;display:flex;gap:10px;align-items:center}
+.facts .v img{width:30px;height:30px}
+.effect{margin-top:28px;border:1px solid var(--line);border-radius:var(--r-panel);padding:24px 26px;position:relative}
+.effect p{margin:10px 0 0;font-size:clamp(18px,2vw,22px);line-height:1.5;max-width:60ch;text-align:justify;hyphens:auto;text-align-last:left}
+.effect .bars{display:grid;gap:10px;margin:16px 0 14px;max-width:420px}
+.effect .bars span{height:18px;background:var(--white)}
+.effect .bars span:nth-child(2){width:72%}
+.effect .cstamp{display:inline-block;color:var(--red);border-top:4px double var(--red);border-bottom:4px double var(--red);padding:4px 10px;font-family:var(--display);font-stretch:125%;font-weight:600;letter-spacing:.08em;font-size:20px;transform:rotate(-3deg);margin-top:6px}
+.effect .cnote{color:var(--ash);margin:14px 0 0}
+.fine{color:var(--ash);font-size:14px;margin-top:20px}
+.file.has-art{grid-template-columns:minmax(260px,420px) minmax(0,1fr)}
+.cardart{margin:0;display:grid;gap:12px}
+.cardart img{width:100%;height:auto;border-radius:14px}
+.facrow{display:flex;gap:18px;align-items:center;padding-bottom:22px;margin-bottom:22px;border-bottom:1px solid var(--line)}
+.facrow img{width:96px;height:96px;object-fit:contain;flex:none}
+.facrow.sha img{width:120px;height:auto}
+.facrow .fn{font-size:24px;margin-bottom:6px}
+.arttag{display:inline-block;margin-left:8px;color:var(--white);font-size:10px;letter-spacing:.08em;border:1px solid var(--white);border-radius:6px;padding:1px 6px;vertical-align:2px}
+@media (max-width:860px){.file,.file.has-art{grid-template-columns:1fr}.cardart{max-width:380px}.emb{padding:24px}.emb img{max-width:200px}.emb.sha img{max-width:240px;margin:8px 0}}
+
+/* footer */
+footer{border-top:1px solid var(--line);margin-top:64px}
+footer .wrap{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;padding-top:28px;padding-bottom:40px}
+footer img{width:96px;height:auto}
+footer p{margin:0;color:var(--ash);font-size:13px}
+footer p + p{margin-top:6px}
+@media (max-width:640px){footer .wrap{grid-template-columns:1fr}}
+.top .btn .short{display:none}
+@media (max-width:640px){.top .btn .long{display:none}.top .btn .short{display:inline}.hero p,.brief p,.effect p{text-align:left;hyphens:manual}.listhead .label{display:none}}
+[hidden]{display:none !important}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto !important;transition:none !important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#" id="homeLink" aria-label="CULTURE WAR expansion files, all cards">
+      <img id="wordmark" alt="CULTURE WAR">
+      <span class="label">Expansion Files</span>
+    </a>
+    <a class="btn" href="https://shop.culturewarthegame.com" target="_blank" rel="noopener"><span class="long">Shop the First Edition</span><span class="short">Shop</span></a>
+  </div>
+</header>
+
+<main id="listView">
+  <section class="hero">
+    <img class="wm" id="watermark" alt="">
+    <div class="wrap">
+      <div class="stamp" aria-hidden="true">DECLASSIFIED</div>
+      <div class="meta">
+        <span class="label">Subject: CULTURE WAR&trade; expansion</span>
+        <span class="label">Status: In development</span>
+        <span class="label">Rating: 17+</span>
+      </div>
+      <h1 class="disp">The Expansion Files</h1>
+      <p id="intro"></p>
+      <div class="tally" id="tally"></div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <section class="brief" aria-labelledby="shadowTitle">
+      <img id="shadowMark" alt="SHADOW mark: an impossible triangle with an eye at its centre">
+      <div>
+        <div class="label">New in the expansion</div>
+        <h2 class="disp f-sha" id="shadowTitle">Shadow</h2>
+        <div class="label sub">Not a faction. Above all of them.</div>
+        <p>The deep state. The lodge. The people who own the people who run every faction. SHADOW cards don't take a side. They tilt the table for everyone sitting at it. How they enter play is still classified.</p>
+      </div>
+      <button class="btn" id="shadowBtn" type="button">Open the SHADOW files</button>
+    </section>
+
+    <section class="controls" id="controls" aria-label="Search and filter cards">
+      <div class="searchrow">
+        <div class="search">
+          <label for="q" class="label" style="position:absolute;left:-9999px">Search cards</label>
+          <input id="q" type="search" placeholder="Search cards" autocomplete="off">
+        </div>
+        <button class="btn filtertoggle" id="filterToggle" type="button" aria-expanded="false" aria-controls="panel">Filters</button>
+      </div>
+      <div class="panel" id="panel">
+        <div class="group">
+          <span class="label" id="facLbl">Faction</span>
+          <div class="chips" id="facChips" role="group" aria-labelledby="facLbl"></div>
+        </div>
+        <div class="group">
+          <span class="label" id="typeLbl">Card type</span>
+          <div class="chips" id="typeChips" role="group" aria-labelledby="typeLbl"></div>
+        </div>
+        <div class="selects">
+          <label for="sub"><span class="label">Sub-type</span><select id="sub"></select></label>
+          <label for="cls"><span class="label">UNIT class</span><select id="cls"></select></label>
+          <label for="sort"><span class="label">Sort</span>
+            <select id="sort">
+              <option value="az">Name, A to Z</option>
+              <option value="faction">Faction</option>
+              <option value="type">Card type</option>
+            </select>
+          </label>
+        </div>
+        <div class="toggles">
+          <div class="chips" style="gap:4px 24px"><label class="check" for="fxOnly"><input type="checkbox" id="fxOnly"> Only show cards with effects written</label><label class="check" for="artOnly"><input type="checkbox" id="artOnly"> Only show cards with sample art</label></div>
+          <button class="textlink" id="reset" type="button">Clear all filters</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="listhead">
+      <div class="count" id="count" aria-live="polite"></div>
+      <div class="label">Tap a card to open its file</div>
+    </div>
+    <div class="cols" aria-hidden="true">
+      <span></span><span class="label">Card</span><span class="label">Type</span><span class="label">Sub-type</span><span class="label">Effect / ability</span><span></span>
+    </div>
+    <ol class="list" id="list"></ol>
+  </div>
+</main>
+
+<main id="detailView" hidden>
+  <div class="wrap detail">
+    <nav class="dnav" aria-label="Card navigation">
+      <a class="textlink" href="#" id="backLink">&larr; All files</a>
+      <div class="pager">
+        <span class="label pos" id="pos"></span>
+        <button class="btn" id="prevBtn" type="button" aria-label="Previous card">&larr; Prev</button>
+        <button class="btn" id="nextBtn" type="button" aria-label="Next card">Next &rarr;</button>
+      </div>
+    </nav>
+    <article class="file" id="file"></article>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img id="panther" alt="PM Games">
+    <div>
+      <p>Concept preview. Card names, factions and effects are in development and can change before print.</p>
+      <p>CULTURE WAR is published by PM Games.</p>
+      <p>CULTURE WAR&trade;, the CULTURE WAR emblem and the faction emblems are trademarks of PM Games. &copy; 2025 PM Games. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+const ASSETS = {{ASSETS}};
+const CARDS = {{CARDS}};
+
+const FACTIONS = [
+  {code:'ana', name:'Anarchy',      desc:'Rebellious Anarchists'},
+  {code:'com', name:'Community',    desc:'Idealistic Communalists'},
+  {code:'tek', name:'Technocracy',  desc:'Elitist Technocrats'},
+  {code:'con', name:'Conservative', desc:'Steadfast Conservatives'},
+  {code:'lib', name:'Libertarian',  desc:'Vicious Libertarians'},
+  {code:'sha', name:'Shadow',       desc:'Not a faction. Above all of them.'}
+];
+const FMAP = Object.fromEntries(FACTIONS.map((f,i)=>[f.code,{...f,order:i}]));
+const TYPES = ['UNIT','EVENT','REAL ESTATE'];
+const TYPE_ICON = {'UNIT':'g_unit','EVENT':'g_event','REAL ESTATE':'g_re'};
+const SUB_ORDER = {'UNIT':['HERO','COMMON','CYBER'],'EVENT':['FLASH','HAPPENING','OPERATION','UNIT MOD','REAL ESTATE MOD'],'REAL ESTATE':['SPECIAL']};
+const NONE = '__none';
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const factionName = c => c === 'sha' ? 'SHADOW' : FMAP[c].name;
+
+// static images and symbol classes
+$('wordmark').src = ASSETS.wordmark;
+$('watermark').src = ASSETS.globe;
+$('shadowMark').src = ASSETS.sha_emblem;
+$('panther').src = ASSETS.panther;
+const symCss = FACTIONS.map(f => `.sym-${f.code}{background-image:url(${ASSETS[f.code+'_icon']})}`).join('');
+document.head.insertAdjacentHTML('beforeend', `<style>${symCss}</style>`);
+
+// intro and tally
+const total = CARDS.length;
+const byType = t => CARDS.filter(c => c.type === t).length;
+const withFx = CARDS.filter(c => c.fx).length;
+$('intro').textContent = `You asked for more cards. This is every concept on the table for the first CULTURE WAR expansion: ${total} files across all five factions, plus a new power that answers to none of them. Names, factions and effects can change before anything goes to print. Blank effects are still classified.`;
+$('tally').innerHTML = [
+  [total,'Card concepts'],[byType('UNIT'),'UNITS'],[byType('EVENT'),'EVENTS'],[byType('REAL ESTATE'),'REAL ESTATE'],[withFx,'Effects declassified'],[CARDS.filter(c => c.art).length,'With sample art']
+].map(([n,l]) => `<div><b>${n}</b><span class="label">${l}</span></div>`).join('');
+
+// state
+const state = {q:'', factions:new Set(), types:new Set(), sub:'', cls:'', fxOnly:false, artOnly:false, sort:'az'};
+let current = [];
+let listScroll = 0;
+
+// faction chips (canonical order, SHADOW set apart)
+$('facChips').innerHTML = FACTIONS.map(f => {
+  const n = CARDS.filter(c => c.faction === f.code).length;
+  const sep = f.code === 'sha' ? '<span class="sep" aria-hidden="true"></span>' : '';
+  return `${sep}<button type="button" class="chip" data-f="${f.code}" aria-pressed="false"><span class="fname f-${f.code}">${f.code==='sha'?'SHADOW':esc(f.name)}</span><span class="n">${n}</span></button>`;
+}).join('');
+$('typeChips').innerHTML = TYPES.map(t => `<button type="button" class="chip" data-t="${t}" aria-pressed="false">${t}<span class="n">${byType(t)}</span></button>`).join('');
+
+function fillSelects(){
+  const types = state.types.size ? [...state.types] : TYPES;
+  // sub-type
+  let h = '<option value="">All sub-types</option>';
+  types.forEach(t => {
+    const present = SUB_ORDER[t].filter(s => CARDS.some(c => c.type === t && c.sub === s));
+    if (present.length) h += `<optgroup label="${t}">` + present.map(s => `<option value="${t}|${s}">${s}</option>`).join('') + '</optgroup>';
+  });
+  if (CARDS.some(c => types.includes(c.type) && !c.sub)) h += `<option value="${NONE}">Not assigned yet</option>`;
+  $('sub').innerHTML = h;
+  if (![...$('sub').options].some(o => o.value === state.sub)) state.sub = '';
+  $('sub').value = state.sub;
+  // class (UNITS only)
+  const classes = [...new Set(CARDS.filter(c => c.type === 'UNIT' && c.cls).map(c => c.cls))].sort();
+  const unitsInPlay = !state.types.size || state.types.has('UNIT');
+  let k = '<option value="">All classes</option>' + classes.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join('') + `<option value="${NONE}">Not assigned yet</option>`;
+  $('cls').innerHTML = k;
+  $('cls').disabled = !unitsInPlay;
+  if (!unitsInPlay) state.cls = '';
+  $('cls').value = state.cls;
+}
+
+function filtered(){
+  const q = state.q.trim().toLowerCase();
+  let out = CARDS.filter(c => {
+    if (state.factions.size && !state.factions.has(c.faction)) return false;
+    if (state.types.size && !state.types.has(c.type)) return false;
+    if (state.sub){
+      if (state.sub === NONE){ if (c.sub) return false; }
+      else { const [t,s] = state.sub.split('|'); if (c.type !== t || c.sub !== s) return false; }
+    }
+    if (state.cls){
+      if (c.type !== 'UNIT') return false;
+      if (state.cls === NONE ? c.cls : c.cls !== state.cls) return false;
+    }
+    if (state.fxOnly && !c.fx) return false;
+    if (state.artOnly && !c.art) return false;
+    if (q){
+      const hay = [c.name, c.fx, factionName(c.faction), c.type, c.sub, c.cls].join(' ').toLowerCase();
+      if (!q.split(/\s+/).every(w => hay.includes(w))) return false;
+    }
+    return true;
+  });
+  const byName = (a,b) => a.name.localeCompare(b.name, 'en', {numeric:true}) || FMAP[a.faction].order - FMAP[b.faction].order;
+  if (state.sort === 'faction') out.sort((a,b) => FMAP[a.faction].order - FMAP[b.faction].order || byName(a,b));
+  else if (state.sort === 'type') out.sort((a,b) => TYPES.indexOf(a.type) - TYPES.indexOf(b.type) || (a.sub||'~').localeCompare(b.sub||'~') || byName(a,b));
+  else out.sort(byName);
+  return out;
+}
+
+function subLabel(c){
+  const parts = [];
+  if (c.sub) parts.push(c.sub === 'HERO' ? '<span class="hero-tag">HERO</span>' : esc(c.sub));
+  if (c.cls) parts.push(esc(c.cls));
+  return parts.length ? parts.join(' &middot; ') : '<span class="tbd">TBD</span>';
+}
+
+function renderList(){
+  current = filtered();
+  $('count').textContent = current.length === total ? `${total} files` : `Showing ${current.length} of ${total} files`;
+  const active = state.factions.size + state.types.size + (state.sub?1:0) + (state.cls?1:0) + (state.fxOnly?1:0) + (state.artOnly?1:0);
+  $('filterToggle').textContent = active ? `Filters (${active})` : 'Filters';
+  if (!current.length){
+    $('list').innerHTML = `<li class="empty"><p>No files match those filters.</p><button class="btn" type="button" onclick="resetAll()">Clear all filters</button></li>`;
+    return;
+  }
+  $('list').innerHTML = current.map(c => {
+    const fx = c.fx ? `<div class="fx">${esc(c.fx)}</div>` : `<div class="fx classified"><span class="redact" aria-hidden="true"></span>Classified</div>`;
+    const ver = (c.ver ? `<span class="ver">${c.ver.replace(/ OF \d+/,'').replace('VERSION','V')}</span>` : '') + (c.art ? '<span class="arttag">CARD ART</span>' : '');
+    return `<li><a class="row" href="#${c.id}">
+      <span class="sym sym-${c.faction}" role="img" aria-label="${esc(factionName(c.faction))}"></span>
+      <div class="who"><div class="nm">${esc(c.name)}${ver}</div><div class="fac f-${c.faction}">${esc(factionName(c.faction))}</div></div>
+      <div class="cell typ">${esc(c.type)}</div>
+      <div class="cell sub">${subLabel(c)}</div>
+      <div class="mob">${esc(c.type)} &middot; ${subLabel(c)}</div>
+      ${fx}
+      <span class="chev" aria-hidden="true">&rsaquo;</span>
+    </a></li>`;
+  }).join('');
+}
+
+function syncChips(){
+  document.querySelectorAll('#facChips .chip').forEach(b => b.setAttribute('aria-pressed', state.factions.has(b.dataset.f)));
+  document.querySelectorAll('#typeChips .chip').forEach(b => b.setAttribute('aria-pressed', state.types.has(b.dataset.t)));
+}
+
+function update(){ syncChips(); fillSelects(); renderList(); }
+
+function resetAll(){
+  Object.assign(state, {q:'', sub:'', cls:'', fxOnly:false, artOnly:false, sort:'az'});
+  $('artOnly').checked = false;
+  state.factions.clear(); state.types.clear();
+  $('q').value = ''; $('fxOnly').checked = false; $('sort').value = 'az';
+  update();
+}
+window.resetAll = resetAll;
+
+$('facChips').addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  const f = b.dataset.f; state.factions.has(f) ? state.factions.delete(f) : state.factions.add(f); update();
+});
+$('typeChips').addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  const t = b.dataset.t; state.types.has(t) ? state.types.delete(t) : state.types.add(t); update();
+});
+$('q').addEventListener('input', e => { state.q = e.target.value; renderList(); });
+$('sub').addEventListener('change', e => { state.sub = e.target.value; renderList(); });
+$('cls').addEventListener('change', e => { state.cls = e.target.value; renderList(); });
+$('sort').addEventListener('change', e => { state.sort = e.target.value; renderList(); });
+$('fxOnly').addEventListener('change', e => { state.fxOnly = e.target.checked; renderList(); });
+$('artOnly').addEventListener('change', e => { state.artOnly = e.target.checked; renderList(); });
+$('reset').addEventListener('click', resetAll);
+$('filterToggle').addEventListener('click', () => {
+  const open = $('controls').classList.toggle('open');
+  $('filterToggle').setAttribute('aria-expanded', open);
+});
+$('shadowBtn').addEventListener('click', () => {
+  state.factions.clear(); state.factions.add('sha'); update();
+  $('controls').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+});
+
+// detail view
+function renderDetail(card){
+  const seq = current.some(c => c.id === card.id) ? current : [...CARDS].sort((a,b) => a.name.localeCompare(b.name,'en',{numeric:true}));
+  const i = seq.findIndex(c => c.id === card.id);
+  const prev = seq[i-1], next = seq[i+1];
+  $('pos').textContent = `File ${i+1} of ${seq.length}`;
+  $('prevBtn').disabled = !prev; $('nextBtn').disabled = !next;
+  $('prevBtn').onclick = () => prev && (location.hash = prev.id);
+  $('nextBtn').onclick = () => next && (location.hash = next.id);
+
+  const f = FMAP[card.faction];
+  const fname = factionName(card.faction);
+  const isUnit = card.type === 'UNIT';
+  const fxLabel = isUnit ? 'Ability' : 'Effect';
+  const facts = [
+    ['Faction', `<span class="f-${card.faction}">${esc(fname)}</span>`],
+    ['Card type', `<img src="${ASSETS[TYPE_ICON[card.type]]}" alt="">${esc(card.type)}`],
+    ['Sub-type', card.sub ? (card.sub === 'HERO' ? '<span class="hero-tag">HERO</span>' : esc(card.sub)) : '<span class="tbd">TBD</span>'],
+  ];
+  if (isUnit) facts.push(['UNIT class', card.cls ? esc(card.cls) : '<span class="tbd">TBD</span>']);
+
+  const effect = card.fx
+    ? `<div class="label">${fxLabel}</div><p>${esc(card.fx)}</p>`
+    : `<div class="label">${fxLabel}</div><div class="bars" aria-hidden="true"><span></span><span></span></div><div class="cstamp">CLASSIFIED</div><p class="cnote">Mechanics in development. Ask the team at the table what this one does.</p>`;
+
+  const emblemAlt = card.faction === 'sha' ? 'SHADOW mark' : esc(f.name)+' faction emblem';
+  $('file').classList.toggle('has-art', !!card.art);
+  if (card.art){
+    $('file').innerHTML = `
+    <figure class="cardart">
+      <img src="${ASSETS[card.art]}" alt="${esc(card.name)} sample card">
+      <figcaption class="label">Sample card. Art and text may change before print.</figcaption>
+    </figure>
+    <div class="info">
+      <div class="facrow ${card.faction === 'sha' ? 'sha' : ''}">
+        <img src="${ASSETS[card.faction+'_emblem']}" alt="${emblemAlt}">
+        <div><div class="disp fn f-${card.faction}">${esc(fname)}</div><div class="label">${esc(f.desc)}</div></div>
+      </div>
+      <div class="label">Card name</div>
+      <h1 class="disp">${esc(card.name)}</h1>
+      ${card.ver ? `<span class="ver">${card.ver}</span>` : ''}
+      <div class="facts">${facts.map(([k,v]) => `<div><span class="label">${k}</span><span class="v">${v}</span></div>`).join('')}</div>
+      <section class="effect">${effect}</section>
+      <p class="fine">Concept file. Names, factions and effects can change before print.</p>
+    </div>`;
+  } else {
+  $('file').innerHTML = `
+    <div class="emb ${card.faction === 'sha' ? 'sha' : ''}">
+      <img src="${ASSETS[card.faction+'_emblem']}" alt="${emblemAlt}">
+      <div class="disp fn f-${card.faction}">${esc(fname)}</div>
+      <div class="label">${esc(f.desc)}</div>
+    </div>
+    <div class="info">
+      <div class="label">Card name</div>
+      <h1 class="disp">${esc(card.name)}</h1>
+      ${card.ver ? `<span class="ver">${card.ver}</span>` : ''}
+      <div class="facts">${facts.map(([k,v]) => `<div><span class="label">${k}</span><span class="v">${v}</span></div>`).join('')}</div>
+      <section class="effect">${effect}</section>
+      <p class="fine">Concept file. Names, factions and effects can change before print.</p>
+    </div>`;
+  }
+  document.title = `${card.name} | CULTURE WAR Expansion Files`;
+}
+
+function route(){
+  const id = decodeURIComponent(location.hash.slice(1));
+  const card = id && CARDS.find(c => c.id === id);
+  if (card){
+    if (!$('listView').hidden) listScroll = window.scrollY;
+    $('listView').hidden = true; $('detailView').hidden = false;
+    renderDetail(card);
+    window.scrollTo(0,0);
+  } else {
+    const wasDetail = !$('detailView').hidden;
+    $('detailView').hidden = true; $('listView').hidden = false;
+    document.title = 'CULTURE WAR Expansion Files';
+    if (wasDetail) window.scrollTo(0, listScroll);
+  }
+}
+window.addEventListener('hashchange', route);
+document.addEventListener('keydown', e => {
+  if ($('detailView').hidden){
+    if (e.key === '/' && document.activeElement !== $('q')){ e.preventDefault(); $('q').focus(); }
+    return;
+  }
+  if (e.key === 'ArrowLeft' && !$('prevBtn').disabled) $('prevBtn').click();
+  if (e.key === 'ArrowRight' && !$('nextBtn').disabled) $('nextBtn').click();
+  if (e.key === 'Escape') location.hash = '';
+});
+$('backLink').addEventListener('click', e => { e.preventDefault(); location.hash = ''; });
+$('homeLink').addEventListener('click', e => { e.preventDefault(); if (location.hash) location.hash = ''; else window.scrollTo(0,0); });
+
+update();
+route();
+</script>
+</body>
+</html>
