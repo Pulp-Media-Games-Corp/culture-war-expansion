@@ -61,6 +61,7 @@ a{color:var(--white);text-underline-offset:3px;text-decoration-thickness:1px}
 .brief h2{font-size:clamp(28px,3.4vw,40px);margin:4px 0 6px}
 .brief .sub{margin-bottom:10px}
 .brief p{margin:0;max-width:60ch;text-align:justify;hyphens:auto;text-align-last:left}
+.brief p.crack{margin-top:14px;padding-left:14px;border-left:2px solid var(--sha);color:var(--white)}
 @media (max-width:860px){.brief{grid-template-columns:1fr;gap:16px}.brief img{width:120px}}
 
 /* controls */
@@ -144,6 +145,9 @@ ol.list{list-style:none;margin:0;padding:0}
 .facts div{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 16px;display:grid;gap:6px;align-content:start}
 .facts .v{font-family:var(--display);font-stretch:125%;font-weight:600;text-transform:uppercase;font-size:17px;letter-spacing:.02em;display:flex;gap:10px;align-items:center}
 .facts .v img{width:30px;height:30px}
+.facts div.imm{grid-column:1/-1}
+@media (min-width:561px){.facts.has-imm{grid-template-columns:repeat(3,1fr)}}
+.facts .imm .v{flex-wrap:wrap;gap:2px 10px}
 .effect{margin-top:28px;border:1px solid var(--line);border-radius:var(--r-panel);padding:24px 26px;position:relative}
 .effect p{margin:10px 0 0;font-size:clamp(18px,2vw,22px);line-height:1.5;max-width:60ch;text-align:justify;hyphens:auto;text-align-last:left}
 .effect .bars{display:grid;gap:10px;margin:16px 0 14px;max-width:420px}
@@ -210,6 +214,7 @@ footer p + p{margin-top:6px}
         <h2 class="disp f-sha" id="shadowTitle">Shadow</h2>
         <div class="label sub">Not a faction. Above all of them.</div>
         <p>The deep state. The people who own the people who run every faction. SHADOW cards don't take a side. They tilt the table for everyone sitting at it. How they enter play is still classified.</p>
+        <p class="crack">SHADOW looms over the whole game, but its chokehold has cracks. By their very nature, some FACTIONS are immune to certain SHADOW EVENTS when they come into play.</p>
       </div>
       <button class="btn" id="shadowBtn" type="button">Open the SHADOW files</button>
     </section>
@@ -478,6 +483,10 @@ function renderDetail(card){
     ['Sub-type', card.sub ? (card.sub === 'HERO' ? '<span class="hero-tag">HERO</span>' : esc(card.sub)) : '<span class="tbd">TBD</span>'],
   ];
   if (isUnit) facts.push(['UNIT class', card.cls ? esc(card.cls) : '<span class="tbd">TBD</span>']);
+  if (Array.isArray(card.imm)) facts.push(['Immune factions',
+    !card.imm.length ? '<span class="tbd">TBD</span>'
+    : card.imm[0] === 'none' ? 'None'
+    : card.imm.map(c => `<span class="f-${c}">${esc(FMAP[c].name)}</span>`).join('<span class="tbd">/</span>')]);
 
   const effect = card.fx
     ? `<div class="label">${fxLabel}</div><p>${esc(card.fx)}</p>`
@@ -499,7 +508,7 @@ function renderDetail(card){
       <div class="label">Card name</div>
       <h1 class="disp">${esc(card.name)}</h1>
       ${card.ver ? `<span class="ver">${card.ver}</span>` : ''}
-      <div class="facts">${facts.map(([k,v]) => `<div><span class="label">${k}</span><span class="v">${v}</span></div>`).join('')}</div>
+      <div class="facts${Array.isArray(card.imm) ? ' has-imm' : ''}">${facts.map(([k,v]) => `<div${k === 'Immune factions' ? ' class="imm"' : ''}><span class="label">${k}</span><span class="v">${v}</span></div>`).join('')}</div>
       <section class="effect">${effect}</section>
       <p class="fine">Concept file. Names, factions and effects can change before print.</p>
     </div>`;
@@ -514,7 +523,7 @@ function renderDetail(card){
       <div class="label">Card name</div>
       <h1 class="disp">${esc(card.name)}</h1>
       ${card.ver ? `<span class="ver">${card.ver}</span>` : ''}
-      <div class="facts">${facts.map(([k,v]) => `<div><span class="label">${k}</span><span class="v">${v}</span></div>`).join('')}</div>
+      <div class="facts${Array.isArray(card.imm) ? ' has-imm' : ''}">${facts.map(([k,v]) => `<div${k === 'Immune factions' ? ' class="imm"' : ''}><span class="label">${k}</span><span class="v">${v}</span></div>`).join('')}</div>
       <section class="effect">${effect}</section>
       <p class="fine">Concept file. Names, factions and effects can change before print.</p>
     </div>`;

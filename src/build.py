@@ -23,6 +23,7 @@ from casing import case_block  # noqa: E402
 SHEET = 'Copy of Copy of CARD IDEAS'
 FACTION_CODE = {'anarchy': 'ana', 'community': 'com', 'technocracy': 'tek',
                 'conservative': 'con', 'libertarian': 'lib', 'shadow': 'sha'}
+IMMUNE_COL = 'Shadow Event Immunity'
 # Sample card art: (card name, faction code) -> asset key
 ART = {('CATFISH', 'tek'): 'art_catfish', ('MATCHA LATTE', 'com'): 'art_matcha',
        ('A.I. SLOP', 'tek'): 'art_aislop'}
@@ -59,14 +60,28 @@ def load_cards():
         unit_type = clean(r[col['Unit Type']]).upper()
         unit_class = clean(r[col['Unit Class']]).upper().replace('/', ' / ')
         event_type = clean(r[col['Event Type']]).upper()
-        note = clean(r[col['NOTES']])
+        note = clean(r[col['NOTES']]) if 'NOTES' in col else ''
+        special = 'special' in note.lower()
+        if ctype == 'SPECIAL REAL ESTATE':  # sheet now marks this in Card Type
+            ctype, special = 'REAL ESTATE', True
         text = clean(r[col['Event Effect']]) or clean(r[col['Unit Abilities']])
         text = case_block(text.replace('p0ut', 'put')) if text else ''
         sub = {'UNIT': unit_type, 'EVENT': event_type,
-               'REAL ESTATE': 'SPECIAL' if 'special' in note.lower() else ''}.get(ctype, '')
-        cards.append({'name': name, 'faction': code, 'type': ctype, 'sub': sub,
-                      'cls': unit_class if ctype == 'UNIT' else '', 'fx': text,
-                      'art': ART.get((name, code), '')})
+               'REAL ESTATE': 'SPECIAL' if special else ''}.get(ctype, '')
+        card = {'name': name, 'faction': code, 'type': ctype, 'sub': sub,
+                'cls': unit_class if ctype == 'UNIT' else '', 'fx': text,
+                'art': ART.get((name, code), '')}
+        # SHADOW EVENTS: factions the EVENT has no effect on. "None" = no one is
+        # exempt; blank = not decided yet (shown as TBD). Other card types ignore it.
+        if code == 'sha' and ctype == 'EVENT' and IMMUNE_COL in col:
+            raw = clean(r[col[IMMUNE_COL]])
+            if raw.lower() == 'none':
+                card['imm'] = ['none']
+            elif raw:
+                card['imm'] = [FACTION_CODE[f.strip().lower()] for f in raw.split(',') if f.strip()]
+            else:
+                card['imm'] = []
+        cards.append(card)
     # unique, hash-safe ids; label same-name variants within a faction
     seen = {}
     for c in cards:
