@@ -4,7 +4,7 @@ Each effect text is treated as one block:
 - UNIT(S), EVENT(S), CAPITAL, REAL ESTATE and UNIT classes: full caps on first
   use in the block, Title Case after that.
 - CYBER, HERO, BASE, COMMON, MOD(S), FLASH, HAPPENING, OPERATION(S), LIFE,
-  COUNTER-ATTACK: always caps.
+  BANK, GARBAGE, COUNTER-ATTACK: always caps (BANK and GARBAGE per Alex, Nov 2026).
 - "Modded" is left as written (matches printed First Edition cards).
 - Sheet shorthand "Cyber Unit Unit(s)" / "Cyber Unit unit" means a CYBER UNIT.
 - Ordinary words the sheet sometimes caps (faction, player, attack, defense,
@@ -25,6 +25,7 @@ ALWAYS = {'cyber': 'CYBER', 'hero': 'HERO', 'heroes': 'HEROES', 'base': 'BASE',
           'common': 'COMMON', 'mod': 'MOD', 'mods': 'MODS', 'flash': 'FLASH',
           'happening': 'HAPPENING', 'operation': 'OPERATION',
           'operations': 'OPERATIONS', 'life': 'LIFE',
+          'bank': 'BANK', 'garbage': 'GARBAGE',
           'counter-attack': 'COUNTER-ATTACK'}
 FACTIONS = ['anarchy', 'community', 'technocracy', 'conservative', 'libertarian']
 
