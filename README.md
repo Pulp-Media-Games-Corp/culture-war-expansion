@@ -13,7 +13,7 @@ CULTURE WAR™ is published by PM Games. © 2025 PM Games. All rights reserved.
 
 The live page is built from the files in `src/`:
 
-- `src/data/card-ideas.xlsx`: card data (the "Copy of Copy of CARD IDEAS" tab)
+- `src/data/card-ideas.xlsx`: card data (the "Copy of Copy of CARD IDEAS" tab). Card Type can be `SPECIAL REAL ESTATE`. The `Shadow Event Immunity` column lists the factions a SHADOW EVENT has no effect on (comma separated); `None` means no faction is exempt, blank shows as TBD. It's ignored on every other card.
 - `src/template.html`: layout, styles and browser logic
 - `src/assets/`: faction emblems, logos, game icons, SHADOW mark, sample card art
 - `src/fonts/`: Archivo and Courier Prime (brand fallback fonts, SIL Open Font License)
