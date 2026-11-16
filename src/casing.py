@@ -7,6 +7,9 @@ Each effect text is treated as one block:
   COUNTER-ATTACK: always caps.
 - "Modded" is left as written (matches printed First Edition cards).
 - Sheet shorthand "Cyber Unit Unit(s)" / "Cyber Unit unit" means a CYBER UNIT.
+- Ordinary words the sheet sometimes caps (faction, player, attack, defense,
+  class) are not game terms, so they go lowercase. Sentence starts and
+  COUNTER-ATTACK are untouched.
 """
 import re
 
@@ -36,7 +39,10 @@ def key_of(word):
 terms = sorted(list(FIRST_USE) + CLASSES + list(ALWAYS) + FACTIONS, key=len, reverse=True)
 PAT = re.compile(r'(?<![A-Za-z])(' + '|'.join(re.escape(t).replace(r'\ ', r'\s+') for t in terms) + r')(?![A-Za-z])', re.I)
 
+PLAIN = re.compile(r'(?<![A-Za-z-])(factions?|players?|attacks?|defen[cs]e|class)(?![A-Za-z-])', re.I)
+
 def case_block(text):
+    text = PLAIN.sub(lambda m: m.group(1).lower(), text)
     # sheet shorthand: "Cyber Unit Units" / "Cyber Unit unit" -> CYBER + Unit(s)
     text = re.sub(r'\bCyber Unit (?=units?\b)', 'Cyber ', text, flags=re.I)
     text = re.sub(r'\bUNITs\b', 'UNITS', text)
